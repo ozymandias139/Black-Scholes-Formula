@@ -1,1 +1,58 @@
+import numpy as np
+from scipy.stats import norm
 
+# Black-Scholes formula
+def black_scholes(S0, K, T, r, sigma):
+    d1 = (np.log(S0 / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+    d2 = d1 - sigma * np.sqrt(T)
+    call_price = S0 * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2)
+    return call_price
+
+# Parameters
+S0 = 100
+K = 100
+T = 1
+r = 0.05
+sigma = 0.2
+dS = 0.01
+dSigma = 0.01
+
+# Calculate the option price and its bump
+V = black_scholes(S0, K, T, r, sigma)
+V_dS = black_scholes(S0 + dS, K, T, r, sigma)
+V_dSigma = black_scholes(S0, K, T, r, sigma + dSigma)
+
+# Greeks
+delta = (V_dS - V) / dS
+vega = (V_dSigma - V) / dSigma
+
+print(f"Delta: {delta}")
+print(f"Vega: {vega}")
+
+# Plotting Greeks against different spot prices
+spot_prices = np.linspace(50, 150, 100)
+deltas = []
+vegas = []
+
+for S in spot_prices:
+    V = black_scholes(S, K, T, r, sigma)
+    V_dS = black_scholes(S + dS, K, T, r, sigma)
+    V_dSigma = black_scholes(S, K, T, r, sigma + dSigma)
+    deltas.append((V_dS - V) / dS)
+    vegas.append((V_dSigma - V) / dSigma)
+
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+plt.plot(spot_prices, deltas)
+plt.title('Delta vs Spot Price')
+plt.xlabel('Spot Price')
+plt.ylabel('Delta')
+
+plt.subplot(1, 2, 2)
+plt.plot(spot_prices, vegas)
+plt.title('Vega vs Spot Price')
+plt.xlabel('Spot Price')
+plt.ylabel('Vega')
+
+plt.tight_layout()
+plt.show()
