@@ -1,0 +1,35 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+S0 = 100  # Initial stock price
+r = 0.05  # Risk-free rate
+sigma = 0.2  # Volatility
+T = 1  # Time to maturity
+
+# Distribution of log(S(T))
+mu = (r - 0.5 * sigma**2) * T
+sigma_t = sigma * np.sqrt(T)
+
+# Generate random samples
+Z = np.random.normal(0, 1, 10000)
+log_ST = mu + sigma_t * Z
+ST = S0 * np.exp(log_ST)
+
+# Plot the distribution of S(T)
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+plt.hist(ST, bins=50, density=True, alpha=0.6, color='g')
+plt.title('Distribution of S(T)')
+plt.xlabel('S(T)')
+plt.ylabel('Density')
+
+# Plot the distribution of log(S(T))
+plt.subplot(1, 2, 2)
+plt.hist(log_ST, bins=50, density=True, alpha=0.6, color='b')
+plt.title('Distribution of log(S(T))')
+plt.xlabel('log(S(T))')
+plt.ylabel('Density')
+
+plt.tight_layout()
+plt.show()
