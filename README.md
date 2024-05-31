@@ -57,7 +57,7 @@ This is the famous Black-Scholes formula for the price of a European call option
 
 ### Plotting the Distribution of $S(T)$ and $log(S(T))$
 
-See in file Distribution
+See in file 'Distribution'
 
 The distributions of $S(T)$ and $log(S(T))$ are shown below:
 
@@ -68,6 +68,8 @@ It can be seen that both distributions are roughly normal.
 
 ### Implementing the Formula in Python
 
+See in file 'Implementing the Formula'
+![image](https://github.com/ozymandias139/Black-Scholes-Formula/assets/129940989/e19a489a-00d6-4803-8bac-aa65009e92a9)
 
 
 
